@@ -1,182 +1,66 @@
-# skeletor
+## Retrieval of JTS data using the Python module
+The Python version of the module allows easy retrieval of the JTS data using the ````get_jts()```` function. The key parameters that can be specified in order to specify what data to retrieve are: ````type_code````, ````spec````, ````sheet```` and ````table_code```` (even though this last parameter is only rarely needed). The table here reports the values to be used for these parameters in order to retrieve each of the JTS data. In some cases, the ````spec```` parameter should be set to empty and the ````sheet```` parameter should be used instead. These occurrences are indicated with $^\S$ in the table below. For all other occurrences, the ````sheet```` parameter should be simply set to the year for which data is needed, e.g. ````sheet = '2019'````. The ````get_jts()```` function returns a ````pandas```` dataframe. The size of the returned dataframe is given in the last column (in the format #rows $\times$ #columns}) of the table, for the specific case of 2019 data. Notes: $^\star$ here, public transport also includes walking. Walking was introduced as a separate mode of travel only for 2019 data. $^\S$ this value should actually be used for the ````sheet```` parameter in the ````get_jts()```` function, and the ````spec```` parameter should be left empty. $^\dagger$ this value should be used in the ````table_code```` parameter in the ````get_jts()```` function, and the ````type_code```` parameter should be left unspecified.
 
-## A Project Template for Data Science Campus Projects
+| Table title | Description                                                            | Type code      | Spec/Sheet       | Size              |
+|-------------|--------------------------------------------------------------------------------------------|----------------|------------------|-------------------|
+| JTS0101     | Travel time to reach nearest key services by mode of travel (England)                      | jts01          | JTS0101$^\S$     | $16 \times 12$    |
+| JTS0102     | Travel time to reach nearest key services by mode of travel (by urban/rural)               | jts01          | urban            | $48 \times 14$    |
+| JTS0103     | Travel time to reach nearest key services by mode of travel (by region)                    | jts01          | region           | $36 \times 13$    |
+| JTS0104     | Travel time to reach nearest key services by mode of travel (by local authority)           | jts01          | local authority  | $361\times 7$     |
+| JTS0201     | Access to key services within journey times by mode of travel (England)                    | jts02          |                  | 32$\times$ 13     |
+| JTS0202     | Access to key services within journey times by mode of travel (by urban/rural)             | jts02          | urban            | 64$\times$ 14     |
+| JTS0203     | Access to key services within journey times by public transport$^\star$ (by region)        | jts02          | public transport | 71$\times$ 13     |
+| JTS0204     | Access to key services within journey times by cycle (by region)                           | jts02          | cycle            | 71$\times$ 13     |
+| JTS0205     | Access to key services within journey times by car (by region)                             | jts02          | car              | 71$\times$ 13     |
+| JTS0206     | Access to key services within journey times by walking (by region)                         | jts0206$^\dagger$ |                  | 71$\times$ 13     |
+| JTS0301     | Number of sites within journey time by key services and mode of travel (England)           | jts03          |                  | 19$\times$ 13     |
+| JTS0302     | Number of sites within journey time by key services and mode of travel (urban/rural)       | jts03          | urban            | 32$\times$ 15     |
+| JTS0303     | Number of sites within journey time by key services and public transport$^\star$ (regions) | jts03          | public transport | 36$\times$ 14     |
+| JTS0304     | Number of sites within journey time by key services and cycle (regions)                    | jts03          | cycle            | 36$\times$ 14     |
+| JTS0305     | Number of sites within journey time by key services and car (regions)                      | jts03          | car              | 36$\times$ 14     |
+| JTS0306     | Number of sites within journey time by key services and walking (regions)                  | jts0306$^\dagger$ |                  | 36$\times$ 14     |
+| JTS0401     | Journey times for employment centres by mode of travel (local authority)                   | jts04          | employment       | 361$\times$ 112   |
+| JTS0402     | Journey times for primary schools by mode of travel (local authority)                      | jts04          | primary          | 361$\times$ 40    |
+| JTS0403     | Journey times for secondary schools by mode of travel (local authority)                    | jts04          | secondary        | 361$\times$ 40    |
+| JTS0404     | Journey times for further education by mode of travel (local authority)                    | jts04          | further          | 361$\times$ 40    |
+| JTS0405     | Journey times for GPs by mode of travel (local authority)                                  | jts04          | gp               | 361$\times$ 40    |
+| JTS0406     | Journey times for hospitals by mode of travel (local authority)                            | jts04          | hospital         | 361$\times$ 40    |
+| JTS0407     | Journey times for food stores by mode of travel (local authority)                          | jts04          | food             | 361$\times$ 40    |
+| JTS0408     | Journey times for town centres by mode of travel (local authority)                         | jts04          | town             | 361$\times$ 40    |
+| JTS0409     | Journey times to pharmacy by cycle and car (local authority)                               | jts04          | pharmacy         | 361$\times$ 22    |
+| JTS0501     | Journey times for employment centres by mode of travel (LSOA)                              | jts05          | employment       | 32844$\times$ 113 |
+| JTS0502     | Journey times for primary schools by mode of travel (LSOA)                                 | jts05          | primary          | 32844$\times$ 41  |
+| JTS0503     | Journey times for secondary schools by mode of travel (LSOA)                               | jts05          | secondary        | 32844$\times$ 41  |
+| JTS0504     | Journey times for further education by mode of travel (LSOA)                               | jts05          | further          | 32844$\times$ 41  |
+| JTS0505     | Journey times for GPs by mode of travel (LSOA)                                             | jts05          | gp               | 32844$\times$ 41  |
+| JTS0506     | Journey times for hospitals by mode of travel (LSOA)                                       | jts05          | hospital         | 32844$\times$ 41  |
+| JTS0507     | Journey times for food stores by mode of travel (LSOA)                                     | jts05          | food             | 32844$\times$ 41  |
+| JTS0508     | Journey times for town centres by mode of travel (LSOA)                                    | jts05          | town             | 32844$\times$ 41  |
+| JTS0509     | Journey times to pharmacy by cycle and car (LSOA)                                          | jts05          | pharmacy         | 32844$\times$ 23  |
 
-### 1. Guides for Private AND Public Repositories
 
-#### 1.1 Introduction
+## Retrieval of JTS data using the Python module ( JTS09)
+As in the table above, we report here how to retrieve the JTS data using the Python package. In particular, this table focuses on the journey times connectivity (JTS09) data, which have a slightly different format than the rest. For this reason, the table includes separately the ````spec```` and ````sheet```` parameters, since in most cases here they both need to be set in order to retrieve the correct data.
 
-This repository is intended to provide you with the documents you need to
-include to get a repository started and give guidance as to what the contents
-should be. The minimum content contained in the README.md for your project
-should be (in the most suitable order for the content):
+| Table title | Description                                      | Type code | Spec     | Sheet             | Size             |
+|-------------|----------------------------------------------------------------------|-----------|----------|-------------------|------------------|
+| JTS0901     | Journey times to nearest airports (local authority)                  | jts09     | airports | JTS0901_Nearest  | 128$\times$ 6    |
+| JTS0901     | Journey times to selected airports (local authority)                 | jts09     | airports | JTS0901_Selected | 128$\times$ 44   |
+| JTS0902     | Catchment population measures for airports (local authority)         | jts09     | airports | JTS0902           | 32$\times$ 14    |
+| JTS0903     | Population within journey time of airports (local authority)         | jts0903   | airports | JTS0903           | 130$\times$ 9    |
+| JTS0904     | Number airports within journey time (local authority)                | jts09     | airports | JTS0904           | 129$\times$ 9    |
+| JTS0905     | Journey times to selected airports (LSOA)                            | jts09     | airports | JTS0905_Selected | 32844$\times$ 41 |
+| JTS0905     | Journey times to airports, summary (LSOA)                            | jts09     | airports | JTS0905_Summary  | 32844$\times$ 9  |
+| JTS0921     | Journey times to nearest rail stations (local authority)             | jts09     | rail     | JTS0921_Nearest  | 119$\times$ 7    |
+| JTS0921     | Journey times to rail stations by car (local authority)              | jts09     | rail     | car               | 120$\times$ 81   |
+| JTS0921     | Journey times to rail stations by public transport (local authority) | jts09     | rail     | PT                | 120$\times$ 81   |
+| JTS0922     | Catchment population measures for rail stations (England)            | jts09     | rail     | JTS0922           | 79$\times$ 15    |
+| JTS0923     | Population within journey time of rail stations (local authority)    | jts09     | rail     | JTS0923           | 130$\times$ 10   |
+| JTS0924     | Number of rail stations within journey time (local authority)        | jts09     | rail     | JTS0924           | 129$\times$ 9     |
+| JTS0925     | Journey times by public transport for selected rail stations (LSOA)  | jts09     | rail     | JTS0925_Selected | 32844$\times$ 84 |
+| JTS0925     | Journey times by public transport for rail stations, summary (LSOA)  | jts09     | rail     | JTS0926_Summary  | 32844$\times$ 7  |
+| JTS0926     | Journey times by car for selected rail stations (LSOA)               | jts09     | rail     | JTS0926_Selected | 32844$\times$ 84 |
+| JTS0926     | Journey times by car for rail stations, summary (LSOA)               | jts09     | rail     | JTS0926_Summary  | 32844$\times$ 7  |
+| JTS0930     | Travel time to city centres (local authority)                        | jts09     |          | JTS0930_LA       | 361$\times$ 5    |
+| JTS0930     | Travel time to city centres (LSOA)                                   | jts09     |          | JTS0930_LSOA     | 32844$\times$ 6  |
 
-- description of what the project is
-- instruction on how to install the tool (if applicable)
-- detailed instructions on basic use
-- a demo of the code
-
-With the inclusion of all documents included here, your repository should meet
-all of the recommended [community standards on github.com](https://help.github.com/en/categories/building-a-strong-community).
-
-Once you have copied this directory you should replace the content of this file
-with the description of your work.
-
-Whilst no mandatory recommendation is made as to how to
-structure the directories or manage the project itself - as this will vary based
-on the needs and the abilities of those doing the development work - guidelines
-are provided below on how to conduct your project in an Agile manner.
-
-If your project is complex enough to warrant a documentation website please add
-a branch called `gh_pages` and place your documentation (in html format) there.
-Once you do this your html files will be rendered at
-https://datasciencecampus.github.io/projectName
-
-#### 1.2. Cloning this Repo
-
-There are two ways to use this template:
-
-##### 1.2.1. Using GitHub (simple method)
-
-At the top of the main page of this repo is a green [Use this template](https://github.com/datasciencecampus/skeletor/generate) button, which
-will clone this repository into a new repository of your choice. The Issue Templates are 
-also cloned. Unfortunately, Issue Labels, and Project Boards are not cloned automatically,
-and you will have to manually add these (guidelines below).
-
-##### 1.2.2. Using Git
-
-Create your new repository with a suitable projectName.
-
-Clone this template to the new repository using
-
-``` sh
-git clone git@github.com:datasciencecampus/skeletor projectName
-```
-
-which will then create a new directory with your project's name and place all of
-the files into it. However, the remote address will remain as the skeletor repo
-until you do
-
-``` sh
-git remote set-url origin git@github.com:datasciencecampus/projectName
-```
-
-##### 2.3. Adding additional Labels
-
-The [generic GitHub labels are limited in their use](https://medium.com/@dave_lunny/sane-github-labels-c5d2e6004b63),
-this repository has additional [labels](https://github.com/datasciencecampus/skeletor/blob/develop/packages/custom-labels.json):
-
-- Low
-- Medium
-- High
-- Critical
-- Legal!
-- Data!
-- Engagement!
-- Resource!
-- Tech!
-
-The first four define the priority of the task. The last five are to highlight any blockers.
-
-To setup these labels do the following:
-
-```
-npm i -g git-labelmaker
-cd projectName
-git-labelmaker
-```
-
-Then go to 'Add labels from package' and then type:
-
-```
-packages/custom-labels.json
-```
-
-The 'Project' labels encompass the majority of Discovery tasks. However, add more labels if you need (either manually or to the JSON file).
-
-### 2. Guides for Private Repositories ONLY
-
-#### 2.1. Using GitHub for Project Management (Agile)
-
-Note: All updates for a project must be included on the relevant
-[project on the portfolio board](https://github.com/orgs/datasciencecampus/projects/21).
-These guidelines relate to the `project repository` that you created using the above guidelines.
-
-##### 2.1.1. Projects (Phase)
-
-This repository shows three projects in the [Project panel](https://github.com/datasciencecampus/skeletor/projects):
-Discovery, Delivery and Dissemination. These projects are setup based on the Campus' project life-cycle and each use a kanban board. Issues (tasks) should be assigned to the relevant stage of the project life-cycle.
-
-To setup click `New Project` and then select 'Automated Kanban with Review' template style for each. This will add the following columns to the Kanban: `To do`, `In Progress`, `Review in Progess`, `Reviewer approved`, `Done`. Add a new column called `Blocked` and move this between `To do` and `In Progress`.
-
-##### 2.1.2. Milestones (Roadmap)
-
-[GitHub Milestones](https://github.com/datasciencecampus/skeletor/milestones) can be used to reflect the project life-cycle phase roadmap. By assigning a task to a Project and a Milestone, progress on individual sprints as well as stages of the project life-cycle can be viewed by the project manager and delivery manager. 
-
-##### 2.1.3. Sprints (Labels)
-
-The sprint number, start and end date should be created as a label (e.g. `Sprint 1 25/11 - 8/12`) and assigned to a task.
-
-##### 2.1.4. Issues (Tasks)
-
-This GitHub template comes with four [Issue templates](https://github.com/datasciencecampus/skeletor/issues/new/choose):
-`Bug report`, `Feature request`, `Use query` and `Task`. 
-
-The [Task issue template](https://github.com/datasciencecampus/skeletor/issues/new?assignees=&labels=&template=task.md&title=)
-should be used to create tasks during the project. Issues (tasks) can be created and assigned ad-hoc, or during stand-ups.
-
-Each Task should have:
-
-* An assigned owner(s), who is/are responsible for completing the task
-* Labels to for the sprint, priority and blocker (if applicable)
-* Linked to a Project
-* Linked to a Milestone
-
-##### 2.1.5. Wiki
-
-The wiki should be used to hold all non-confidential information and links to confidential documents (which should be saved to SharePoint under Projects > projectName). 
-
-[The wiki of skeletor](https://github.com/datasciencecampus/test-clone/wiki) has been setup with a distinct structure to record Sprint Goals, Retrospectives, Show and Tells, Meeting Notes, Technical Information, Project Documentation. To use this template the easier way is:
-
-* In your created repository, create a blank wiki page.
-* As GitHub wiki pages are just repositories, clone the Wiki pages locally using `git clone https://github.com/datasciencecampus/projectName/wiki`
-* Clone the skeletor repository's wiki pages using `git clone https://github.com/datasciencecampus/skeletor/wiki`
-* Copy the markdown files from the local skeletor folder to your new repository folder
-* Use `git add .`, `git commit -m 'added wiki pages from skeletor`, `git push` to push the changes back up
-
-##### 2.1.6. Benefits
-
-- This will aid delivery and project managers to see the progress of projects in the project life-cycle
-- a comprehensive use of an 'issue' in GitHub will allow delivery and project managers to filter tasks to assign additional resource
-- use of the projects board for each stage of the life-cycle will allow users to quickly see what stage a project is in
-- it facilitates agile working in sprints
-
-### 3. Guides for Public Repositories ONLY
-
-Make a clean, fresh repository! This will make sure no git history is opened to the public. Copy your code into this repository and update the **CONTRIBUTING.md** file. Your **README.md** might also need more information too. And check you are using the relevant **LICENSE.md** file too.
-
-### 4. Contents
-
-* **CODE_OF_CONDUCT.md**: a statement from the [Contributor
-  Covenant](https://contributor-covenant.org) regarding what is and isn't
-  acceptable behaviour for contributors
-* **CONTRIBUTING.md**: guidelines for how contributions should be made to the work,
-  this should be updated when the work is made public
-* **README.md**: this document, every repository should have one and it acts as
-  the main landing page for your repository
-* **LICENSE**: the UK public sector usually operate under two different
-  licensing schemes. The most common for code is the MIT license which is
-  included in this repo. Alternatively there is an Open Government license and
-  a description of what OpenGov enforces can be found
-  [here](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
-* **.github**: this directory allows the user to specify templates for
-  contribution types, included in this repository are a bug fix submission
-  template, a feature request template and a pull request template. Each of them
-  includes a series of tickboxes which you can use to help you decide whether or
-  not the submission is suitable.
-* **.gitignore**: this file allows you to specify which directories, files and
-  globbed file types are to be ignored as part of the diffs being managed by
-  git. This allows you to have your data in the same directory structure as your
-  code without it needing to be pushed and pulled along with it. If you have
-  data which you do need to manage I would highly advise the use of `git-annex`
-  ahead of including data files in your repository (unless they are small).
