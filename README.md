@@ -8,6 +8,14 @@ For further details see the official JTS home page at https://www.gov.uk/governm
 
 If the information provided is of use and interest, please cite the accompanying paper as follows (TBC):
 
+## Retrieval of JTS data using the R package
+
+Install the package as follows:
+
+```r
+remotes::install_github("datasciencecampus/jtstats-r")
+```
+
 
 ## Retrieval of JTS data using the Python module
 The Python version of the module allows easy retrieval of the JTS data using the ````get_jts()```` function. The key parameters that can be specified in order to specify what data to retrieve are: ````type_code````, ````spec````, ````sheet```` and ````table_code```` (even though this last parameter is only rarely needed). The table here reports the values to be used for these parameters in order to retrieve each of the JTS data. In some cases, the ````spec```` parameter should be set to empty and the ````sheet```` parameter should be used instead. These occurrences are indicated with $^\S$ in the table below. For all other occurrences, the ````sheet```` parameter should be simply set to the year for which data is needed, e.g. ````sheet = '2019'````. The ````get_jts()```` function returns a ````pandas```` dataframe. The size of the returned dataframe is given in the last column (in the format #rows $\times$ #columns}) of the table, for the specific case of 2019 data. Notes: $^\star$ here, public transport also includes walking. Walking was introduced as a separate mode of travel only for 2019 data. $^\S$ this value should actually be used for the ````sheet```` parameter in the ````get_jts()```` function, and the ````spec```` parameter should be left empty. $^\dagger$ this value should be used in the ````table_code```` parameter in the ````get_jts()```` function, and the ````type_code```` parameter should be left unspecified.
