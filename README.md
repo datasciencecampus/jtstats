@@ -1,4 +1,5 @@
 
+
 # jtstats: Getting Journey Time Statistics data with R and Python
 
 This short article demonstrates how to get data from the UK’s Department
@@ -21,16 +22,88 @@ Install the package as follows:
 remotes::install_github("datasciencecampus/jtstats-r")
 ```
 
-## Retrieval of JTS data using the Python module
+From the readme of the R package we can download a specific dataset as
+follows:
 
-The Python version of the module allows easy retrieval of the JTS data
-using the `get_jts()` function. The key parameters that can be specified
-in order to specify what data to retrieve are: `type_code`, `spec`,
-`sheet` and `table_code` (even though this last parameter is only rarely
-needed). The table here reports the values to be used for these
-parameters in order to retrieve each of the JTS data. In some cases, the
-`spec` parameter should be set to empty and the `sheet` parameter should
-be used instead. These occurrences are indicated with $^\S$ in the table
+``` r
+library(jtstats)
+jts_geo = get_jts(type = "jts04", purpose = "GPs", sheet = 2017, geo = TRUE)
+```
+
+    Matching tables by type (jts04):
+    Travel time, destination and origin indicators for employment centres by mode of travel and local authority, England
+    Travel time, destination and origin indicators for primary schools by mode of travel and local authority, England
+    Travel time, destination and origin indicators for secondary schools by mode of travel and local authority, England
+    Travel time, destination and origin indicators for further education by mode of travel and local authority, England
+    Travel time, destination and origin indicators for GPs by mode of travel and local authority, England
+    Travel time, destination and origin indicators for hospitals by mode of travel and local authority, England
+    Travel time, destination and origin indicators for food stores by mode of travel and local authority, England
+    Travel time, destination and origin indicators for town centres by mode of travel and local authority, England
+    Travel time, destination and origin indicators to Pharmacy by cycle and car, local authority, England
+
+
+    Matching tables by purpose (jts04):
+    Travel time, destination and origin indicators for GPs by mode of travel and local authority, England
+
+
+    Matching tables by sheet (jts04, GPs, 2017):
+    jts0405-2017.csv
+
+``` r
+# We'll print data for Hartlepool and Middlesbrough:
+jts_hartlepool_middlesbrough = jts_geo[jts_geo$LA_Name %in% c("Hartlepool", "Middlesbrough"), ]
+jts_hartlepool_middlesbrough[, c("LA_Name", "GP_pop")]
+```
+
+    Simple feature collection with 2 features and 2 fields
+    Geometry type: MULTIPOLYGON
+    Dimension:     XY
+    Bounding box:  xmin: -1.383764 ymin: 54.50113 xmax: -1.137319 ymax: 54.72717
+    Geodetic CRS:  WGS 84
+    # A tibble: 2 × 3
+      LA_Name       GP_pop                                                  geometry
+      <chr>          <dbl>                                        <MULTIPOLYGON [°]>
+    1 Hartlepool    41484. (((-1.270252 54.72717, -1.268225 54.72609, -1.267405 54.…
+    2 Middlesbrough 58295. (((-1.23003 54.58411, -1.230163 54.58374, -1.229838 54.5…
+
+## Retrieval of JTS data using the Python package
+
+Install the package as follows from the `jtstats-py` directory:
+
+``` bash
+cd ../jtstats-py # if already there
+curl -sSL https://install.python-poetry.org | python3 -
+# See https://python-poetry.org/docs/#installing-with-the-official-installer
+poetry install
+
+# To open a Python session with all the dependencies you can run the following:
+
+poetry shell
+python
+# From the Python shell, load the package to test it's installed:
+import jtspy as jts
+# Access the equivalent dataset from the Python package:
+jts_geo = jts.get_jts(type_code = "jts04", spec = "gp", sheet = "2017")
+# Print the values for Hartlepool and Middlesbrough:
+jts_hartlepool_middlesbrough = jts_geo[jts_geo["LA_Name"].isin(["Hartlepool", "Middlesbrough"])]
+# Print the first 5 columns:
+print(jts_hartlepool_middlesbrough[["LA_Name", "GP_pop"]].head(4))
+```
+
+    0        LA_Name        GP_pop
+    2     Hartlepool  41483.728979
+    3  Middlesbrough  58295.046099
+
+### Details of the Python package
+
+The Python package allows easy retrieval of the JTS data using the
+`get_jts()` function. The key parameters that can be specified in order
+to specify what data to retrieve are: `type_code`, `spec`, `sheet` and
+`table_code` (even though this last parameter is only rarely needed).
+The table here reports the values to be used for these parameters in
+order to retrieve each of the JTS data. In some cases, the `spec`
+parameter should be set to empty and the `sheet` parameter should be
+used instead. These occurrences are indicated with $^\S$ in the table
 below. For all other occurrences, the `sheet` parameter should be simply
 set to the year for which data is needed, e.g. `sheet = '2019'`. The
 `get_jts()` function returns a `pandas` dataframe. The size of the
